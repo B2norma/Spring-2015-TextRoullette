@@ -100,14 +100,7 @@ $(function(){
 					alert("There already is a \"" + name + "\" in this room!");
 					return;
 				}
-				email = hisEmail.val();
-
-				if(!isValid(email)){
-					alert("Wrong e-mail format!");
-				}
-				else {
 					socket.emit('login', {user: name, avatar: email, id: id});
-				}
 
 			});
 		}
