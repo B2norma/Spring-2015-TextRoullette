@@ -73,18 +73,10 @@ $(function(){
 					return;
 				}
 
-				email = yourEmail.val();
-
-				if(!isValid(email)) {
-					alert("Please enter a valid email!");
-				}
-				else {
-
 					showMessage("inviteSomebody");
 
 					// call the server-side function 'login' and send user's parameters
 					socket.emit('login', {user: name, avatar: email, id: id});
-				}
 			
 			});
 		}

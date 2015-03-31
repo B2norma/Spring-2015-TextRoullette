@@ -9,7 +9,6 @@
 <html>
 
 <head>
-
 	<title>Private chat room | Tutorialzine Demo</title>
 
 	<link type="text/css" rel="stylesheet" href="../css/stylesheet.css" />
@@ -19,6 +18,8 @@
 </head>
 
 <body>
+<header  class="homebanner">
+	</header>
 	<section class="section">
 
 		<!-- These elements are displayed as white info cards in the middle of the screen -->
@@ -33,7 +34,6 @@
 
 				<form class="loginForm">
 					<input type="text" id="yourName" placeholder="Your nick name" /><br/>
-					<input type="text" id="yourEmail" placeholder="Your email address" /><br/>
 					<input type="submit" id="yourEnter" value="ENTER" />
 				</form>
 
@@ -51,7 +51,6 @@
 
 				<form class="loginForm">
 					<input type="text" id="hisName" placeholder="Your nick name" /><br/>
-					<input type="text" id="hisEmail" placeholder="Your email address" /><br/>
 					<input type="submit" id="hisEnter" value="CHAT" />
 				</form>
 
@@ -120,6 +119,7 @@
 
 	</footer>
 
+	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="../js/moment.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
