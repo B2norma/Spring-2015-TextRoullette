@@ -32,9 +32,5 @@ MongoClient.connect("mongodb://localhost:27017/WaitingUser", function(err, db) {
 require('./config')(app, io);
 require('./routes')(app, io);
 
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
 
 console.log('Your application is running on http://localhost:' + port);
