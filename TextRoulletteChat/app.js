@@ -11,20 +11,20 @@ var express = require('express'),
 
 var port = process.env.PORT || 8080;
 
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/WaitingUser', function(err) {
+    if(err) {
+        console.log('connection error', err);
+    } else {
+        console.log('connection successful');
+    }
+});
+
 // Initialize a new socket.io object. It is bound to 
 // the express app, which allows them to coexist.
 
 var io = require('socket.io').listen(app.listen(port));
-
-// Retrieve
-var MongoClient = require('mongodb').MongoClient;
-
-// Connect to the db
-MongoClient.connect("mongodb://localhost:27017/WaitingUser", function(err, db) {
-  if(!err) {
-    console.log("We are connected to the database.");
-  }
-});
 
 // Require the configuration and the routes files, and pass
 // the app and io as arguments to the returned functions.
