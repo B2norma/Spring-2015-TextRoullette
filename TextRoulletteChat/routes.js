@@ -8,6 +8,8 @@ var gravatar = require('gravatar');
 
 // Export a function, so that we can pass 
 // the app and io instances from the app.js file:
+var mongoose = require('mongoose');
+var ChatDB = require('./models/userWaiting.js')
 
 module.exports = function(app,io){
 
@@ -18,12 +20,35 @@ module.exports = function(app,io){
 	});
 
 	app.get('/create', function(req,res){
+		
+		ChatDB.where().findOneAndRemove(function(err,result) {
+			if(err) console.log(err);
+			if(!result) {
+				var id = Math.round((Math.random() * 1000000));
+				var j = new ChatDB({chatRoomId:id});
+				ChatDB.create(j,function(err,temp) {
+					if(err) {
+						console.log(err);
+					} else {
+						console.log(temp);
+						console.log("User added since no one was available");
+						res.redirect('/chat/'+id);
+					}	
+				});
+				console.log("Empty!");
+			} else {
+				res.redirect('/chat/'+result.chatRoomId);
+				console.log("Someone was waiting so user was paired.");
+			}
+		});
+		
+		
 
 		// Generate unique id for the room
-		var id = Math.round((Math.random() * 1000000));
+		
 
 		// Redirect to the random room
-		res.redirect('/chat/'+id);
+		//res.redirect('/chat/'+id);
 	});
 
 	app.get('/chat/:id', function(req,res){

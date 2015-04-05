@@ -9,11 +9,11 @@ var express = require('express'),
 
 // This is needed if the app is run on heroku:
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/WaitingUser', function(err) {
+mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) {
     if(err) {
         console.log('connection error', err);
     } else {
