@@ -86,7 +86,7 @@ $(function(){
 			
 			var first = getUrlVars()["name"];
 			
-			if(first!=null) {
+			if(first!=null && first!="") {
 				showMessage("inviteSomebody");
 				name = first;
 					// call the server-side function 'login' and send user's parameters
@@ -334,7 +334,8 @@ $(function(){
 		}
 
 		else if(status === "tooManyPeople") {
-
+			var redirectUrl = "location.href = '../create?name="+ name + "';";
+			setTimeout(redirectUrl,5000);
 			section.children().css('display', 'none');
 			tooManyPeople.fadeIn(1200);
 		}
