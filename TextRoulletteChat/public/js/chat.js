@@ -1,5 +1,4 @@
 // This file is executed in the browser, when people visit /chat/<random id>
-
 $(function(){
 
 	// getting the id of the room from the url
@@ -54,14 +53,19 @@ $(function(){
 	socket.on('img', function(data){
 		img = data;
 	});
+	
+	function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+	}
 
 	// receive the names and avatars of all people in the chat room
 	socket.on('peopleinchat', function(data){
 
 		if(data.number === 0){
-
-			showMessage("connected");
-
 			loginForm.on('submit', function(e){
 
 				e.preventDefault();
@@ -79,6 +83,19 @@ $(function(){
 					socket.emit('login', {user: name, avatar: email, id: id});
 			
 			});
+			
+			var first = getUrlVars()["name"];
+			
+			if(first!=null) {
+				showMessage("inviteSomebody");
+				name = first;
+					// call the server-side function 'login' and send user's parameters
+				socket.emit('login', {user: name, avatar: email, id: id});
+			} else{
+			showMessage("connected");
+			}
+
+			
 		}
 
 		else if(data.number === 1) {
@@ -137,7 +154,8 @@ $(function(){
 		if(data.boolean && id==data.room){
 			showMessage("somebodyLeft", data);
 			chats.empty();
-			setTimeout("location.href = '../create';",5000);
+			var redirectUrl = "location.href = '../create?name="+ name + "';";
+			setTimeout(redirectUrl,5000);
 		}
 
 	});
@@ -257,7 +275,7 @@ $(function(){
 				dataType: 'json',
 				success : function (response) {
 				if(response.response == "bad") {
-					window.location.replace('../create');
+					window.location.replace('../create?name=' + name);
 				}
 				}
 			});
@@ -267,7 +285,7 @@ $(function(){
 		}
 
 		else if(status === "personinchat"){
-
+			
 			onConnect.css("display", "none");
 			personInside.fadeIn(1200);
 
@@ -322,4 +340,7 @@ $(function(){
 		}
 	}
 
+	$(".randomChatButton").click(function(){
+        window.location.replace('../create?name=' + name);
+    });
 });

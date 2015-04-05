@@ -32,12 +32,22 @@ module.exports = function(app,io){
 					} else {
 						console.log(temp);
 						console.log("User added since no one was available");
-						res.redirect('/chat/'+id);
+						if(req.query.name!=null) {
+							res.redirect('/chat/'+id + "?name=" + req.query.name);
+						} else {
+							res.redirect('/chat/'+id);
+						}
+						
 					}	
 				});
 				console.log("Empty!");
 			} else {
-				res.redirect('/chat/'+result.chatRoomId);
+				if(req.name!=null) {
+							res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
+						} else {
+							res.redirect('/chat/'+result.chatRoomId);
+						}
+				
 				console.log("Someone was waiting so user was paired.");
 			}
 		});
@@ -53,7 +63,7 @@ module.exports = function(app,io){
 
 	app.get('/chat/:id', function(req,res){
 		
-		// Render the chant.html view
+		// Render the chat.html view
 		res.render('chat');
 	});
 	
