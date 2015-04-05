@@ -135,9 +135,9 @@ $(function(){
 	socket.on('leave',function(data){
 
 		if(data.boolean && id==data.room){
-
 			showMessage("somebodyLeft", data);
 			chats.empty();
+			setTimeout("location.href = '../create';",5000);
 		}
 
 	});
@@ -239,12 +239,6 @@ $(function(){
 		$("html, body").animate({ scrollTop: $(document).height()-$(window).height() },1000);
 	}
 
-	function isValid(thatemail) {
-
-		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		return re.test(thatemail);
-	}
-
 	function showMessage(status,data){
 
 		if(status === "connected"){
@@ -256,8 +250,17 @@ $(function(){
 		else if(status === "inviteSomebody"){
 
 			// Set the invite link content
-			$("#link").text(window.location.href);
-
+			$.ajax({
+				url: '/chat/check/' + id,
+				type: 'POST',
+				data: { json: id},
+				dataType: 'json',
+				success : function (response) {
+				if(response.response == "bad") {
+					window.location.replace('../create');
+				}
+				}
+			});
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});

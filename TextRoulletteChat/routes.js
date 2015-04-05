@@ -52,9 +52,24 @@ module.exports = function(app,io){
 	});
 
 	app.get('/chat/:id', function(req,res){
-
+		
 		// Render the chant.html view
 		res.render('chat');
+	});
+	
+	app.post('/chat/check/:id',function(req,res) {
+		console.log("Checking if all is good");
+		ChatDB.findOne({chatRoomId:req.params.id},function(err,result) {
+			if(err) console.log(err);
+			if(!result) {
+				console.log("User has disconnected, trying to find a new lobby.");
+				res.json({response:"bad"});
+			} else {
+				console.log("All good");
+				res.json({response:"good"});
+			}
+		});
+		
 	});
 
 	// Initialize a new socket.io application, named 'chat'
@@ -136,7 +151,6 @@ module.exports = function(app,io){
 
 		// Somebody left the chat
 		socket.on('disconnect', function() {
-
 			// Notify the other person in the chat room
 			// that his partner has left
 
