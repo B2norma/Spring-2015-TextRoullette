@@ -87,7 +87,7 @@ $(function(){
 			});
 			
 			var first = getUrlVars()["name"];
-			
+			name = first;
 			if(first!=null && first!="") {
 				showMessage("inviteSomebody");
 				name = first;
@@ -105,7 +105,7 @@ $(function(){
 			showMessage("personinchat",data);
 			
 			var first = getUrlVars()["name"];
-			
+			name = first;
 			if(first!=null && first!="") {
 				showMessage("inviteSomebody");
 				name = first;
@@ -295,9 +295,11 @@ $(function(){
 				}
 				}
 			});
+			
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
+			
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,5000);
 		}

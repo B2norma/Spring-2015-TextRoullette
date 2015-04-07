@@ -43,6 +43,7 @@ module.exports = function(app,io){
 				console.log("Empty!");
 			} else {
 				if(req.query.name!=null) {
+					console.log(req.query.name);
 							res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
 						} else {
 							res.redirect('/chat/'+result.chatRoomId);
