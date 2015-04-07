@@ -171,7 +171,7 @@ $(function(){
 			showMessage("somebodyLeft", data);
 			chats.empty();
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			setTimeout(redirectUrl,5000);
+			setTimeout(redirectUrl,4300);
 		}
 
 	});
@@ -284,7 +284,7 @@ $(function(){
 		else if(status === "inviteSomebody"){
 
 			// Set the invite link content
-			$.ajax({
+			/*$.ajax({
 				url: '/chat/check/' + id,
 				type: 'POST',
 				data: { json: id},
@@ -294,14 +294,14 @@ $(function(){
 					window.location.replace('../create?name=' + name);
 				}
 				}
-			});
+			});*/
 			
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
 			
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			timeout = setTimeout(redirectUrl,5000);
+			timeout = setTimeout(redirectUrl,4200);
 		}
 
 		else if(status === "personinchat"){
@@ -309,7 +309,7 @@ $(function(){
 			onConnect.css("display", "none");
 			personInside.fadeIn(1200);
 
-			//chatNickname.text(data.user);
+			chatNickname.text(data.user);
 			ownerImage.attr("src",data.avatar);
 		}
 
@@ -329,6 +329,7 @@ $(function(){
 		else if(status === "heStartedChatWithNoMessages") {
 
 			personInside.fadeOut(1200,function(){
+				inviteSomebody.fadeOut(1200);
 				noMessages.fadeIn(1200);
 				footer.fadeIn(1200);
 			});
@@ -338,7 +339,6 @@ $(function(){
 		}
 
 		else if(status === "chatStarted"){
-
 			section.children().css('display','none');
 			chatScreen.css('display','block');
 		}
@@ -355,7 +355,7 @@ $(function(){
 
 		else if(status === "tooManyPeople") {
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			setTimeout(redirectUrl,5000);
+			setTimeout(redirectUrl,4000);
 			section.children().css('display', 'none');
 			tooManyPeople.fadeIn(1200);
 		}
