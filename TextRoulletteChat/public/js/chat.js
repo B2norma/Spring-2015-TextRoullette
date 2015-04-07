@@ -128,7 +128,7 @@ $(function(){
 				name = first;
 					// call the server-side function 'login' and send user's parameters
 				socket.emit('login', {user: name, avatar: email, id: id});
-			} else{
+		}} else{
 			showMessage("connected");
 			}
 		}
