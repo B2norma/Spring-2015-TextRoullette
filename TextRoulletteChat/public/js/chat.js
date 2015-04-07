@@ -306,7 +306,7 @@ $(function(){
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,4200);
 			
-			setTimeout(function(){
+			/*setTimeout(function(){
 				$.ajax({
 				url: '/chat/check/' + id,
 				type: 'POST',
@@ -318,7 +318,7 @@ $(function(){
 				}
 				}
 			});}
-			,4000);
+			,4000);*/
 
 			
 			
