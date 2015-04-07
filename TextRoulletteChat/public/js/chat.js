@@ -157,10 +157,13 @@ $(function(){
 				showMessage("youStartedChatWithNoMessages",data);
 			}
 			else {
-
+             
 				showMessage("heStartedChatWithNoMessages",data);
 			}
 
+            if(friend==name) {
+                window.location.replace('/../create?name=' + name);
+            }
 			chatNickname.text(friend);
 		}
 	});
@@ -299,11 +302,28 @@ $(function(){
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
+            
+            
 			
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,4200);
-		}
+            
+            setTimeout(function(){
+				$.ajax({
+				url: '/chat/check/' + id,
+				type: 'POST',
+				data: { json: id},
+				dataType: 'json',
+				success : function (response) {
+				if(response.response == "bad") {
+					clearTimeout(timeout);
+				}
+				}
+			});}
+			,4000);
 
+        
+        
 		else if(status === "personinchat"){
 			
 			onConnect.css("display", "none");
