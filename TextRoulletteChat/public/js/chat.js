@@ -113,7 +113,7 @@ $(function(){
 				socket.emit('login', {user: name, avatar: email, id: id});
 				return;
 			} else{
-			showMessage("personinchat",data);
+				//showMessage("inviteSomebody");
 			}
 			
 			loginForm.on('submit', function(e){
@@ -157,13 +157,10 @@ $(function(){
 				showMessage("youStartedChatWithNoMessages",data);
 			}
 			else {
-             
+
 				showMessage("heStartedChatWithNoMessages",data);
 			}
 
-            if(friend==name) {
-                window.location.replace('/../create?name=' + name);
-            }
 			chatNickname.text(friend);
 		}
 	});
@@ -302,13 +299,10 @@ $(function(){
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
-            
-            
-			
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,4200);
-            
-            setTimeout(function(){
+			
+			setTimeout(function(){
 				$.ajax({
 				url: '/chat/check/' + id,
 				type: 'POST',
@@ -316,14 +310,15 @@ $(function(){
 				dataType: 'json',
 				success : function (response) {
 				if(response.response == "bad") {
-					clearTimeout(timeout);
+					clearTimeout(redirectUrl);
 				}
 				}
 			});}
 			,4000);
+			
+			
+		}
 
-        
-        
 		else if(status === "personinchat"){
 			
 			onConnect.css("display", "none");
