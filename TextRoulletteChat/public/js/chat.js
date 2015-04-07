@@ -113,7 +113,7 @@ $(function(){
 				socket.emit('login', {user: name, avatar: email, id: id});
 				return;
 			} else{
-			showMessage("personinchat",data);
+				//showMessage("inviteSomebody");
 			}
 			
 			loginForm.on('submit', function(e){
@@ -299,9 +299,24 @@ $(function(){
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
-			
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,4200);
+			
+			setTimeout(function(){
+				$.ajax({
+				url: '/chat/check/' + id,
+				type: 'POST',
+				data: { json: id},
+				dataType: 'json',
+				success : function (response) {
+				if(response.response == "bad") {
+					clearTimeout(redirectUrl);
+				}
+				}
+			});}
+			,4000);
+			
+			
 		}
 
 		else if(status === "personinchat"){
