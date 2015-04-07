@@ -42,7 +42,7 @@ module.exports = function(app,io){
 				});
 				console.log("Empty!");
 			} else {
-				if(req.name!=null) {
+				if(req.query.name!=null) {
 							res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
 						} else {
 							res.redirect('/chat/'+result.chatRoomId);

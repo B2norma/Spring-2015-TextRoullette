@@ -120,6 +120,17 @@ $(function(){
 					socket.emit('login', {user: name, avatar: email, id: id});
 
 			});
+			
+			var first = getUrlVars()["name"];
+			
+			if(first!=null && first!="") {
+				showMessage("inviteSomebody");
+				name = first;
+					// call the server-side function 'login' and send user's parameters
+				socket.emit('login', {user: name, avatar: email, id: id});
+			} else{
+			showMessage("connected");
+			}
 		}
 
 		else {
