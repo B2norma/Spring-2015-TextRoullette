@@ -160,7 +160,9 @@ $(function(){
 
 				showMessage("heStartedChatWithNoMessages",data);
 			}
-
+			if(friend==name) {
+				window.location.replace('../create?name=' + name);
+			}
 			chatNickname.text(friend);
 		}
 	});
@@ -299,6 +301,8 @@ $(function(){
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
+			
+						
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,4200);
 			
@@ -310,11 +314,12 @@ $(function(){
 				dataType: 'json',
 				success : function (response) {
 				if(response.response == "bad") {
-					clearTimeout(redirectUrl);
+					clearTimeout(timeout);
 				}
 				}
 			});}
 			,4000);
+
 			
 			
 		}
