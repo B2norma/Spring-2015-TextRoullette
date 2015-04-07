@@ -1,6 +1,8 @@
 // This file is executed in the browser, when people visit /chat/<random id>
 $(function(){
 
+	var timeout;
+
 	// getting the id of the room from the url
 	var id = Number(window.location.pathname.match(/\/chat\/(\d+)$/)[1]);
 
@@ -144,6 +146,7 @@ $(function(){
 	// Other useful 
 
 	socket.on('startChat', function(data){
+		clearTimeout(timeout);
 		console.log(data);
 		if(data.boolean && data.id == id) {
 
@@ -295,6 +298,8 @@ $(function(){
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
+			var redirectUrl = "location.href = '../create?name="+ name + "';";
+			timeout = setTimeout(redirectUrl,5000);
 		}
 
 		else if(status === "personinchat"){
