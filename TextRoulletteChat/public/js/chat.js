@@ -101,7 +101,19 @@ $(function(){
 		else if(data.number === 1) {
 
 			showMessage("personinchat",data);
-
+			
+			var first = getUrlVars()["name"];
+			
+			if(first!=null && first!="") {
+				showMessage("inviteSomebody");
+				name = first;
+					// call the server-side function 'login' and send user's parameters
+				socket.emit('login', {user: name, avatar: email, id: id});
+				return;
+			} else{
+			showMessage("personinchat",data);
+			}
+			
 			loginForm.on('submit', function(e){
 
 				e.preventDefault();
@@ -118,19 +130,9 @@ $(function(){
 					return;
 				}
 					socket.emit('login', {user: name, avatar: email, id: id});
-
 			});
 			
-			var first = getUrlVars()["name"];
 			
-			if(first!=null && first!="") {
-				showMessage("inviteSomebody");
-				name = first;
-					// call the server-side function 'login' and send user's parameters
-				socket.emit('login', {user: name, avatar: email, id: id});
-			} else{
-			showMessage("connected");
-			}
 		}
 
 		else {
@@ -300,7 +302,7 @@ $(function(){
 			onConnect.css("display", "none");
 			personInside.fadeIn(1200);
 
-			chatNickname.text(data.user);
+			//chatNickname.text(data.user);
 			ownerImage.attr("src",data.avatar);
 		}
 
