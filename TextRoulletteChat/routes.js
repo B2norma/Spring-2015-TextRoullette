@@ -28,7 +28,9 @@ module.exports = function(app,io){
 			if(!result) {
 				var id = Math.round((Math.random() * 1000000));
 				var j = new ChatDB({chatRoomId:id});
-				ChatDB.create(j,checkChatAvailability(err,temp,req,res));
+				ChatDB.create(j,function(err,temp) {
+					checkChatAvailability(err,temp,req,res,id);
+				});
 				
 				console.log("Empty!");
 			} else {
@@ -181,18 +183,18 @@ function joinChat(req,res,result) {
 			}
 		}
 
-function checkChatAvailability(err,temp,req,res) {
+function checkChatAvailability(err,temp,req,res,id) {
 	if(err) {
 		console.log(err);
 	} else {
 		console.log(temp);
 		console.log("User added since no one was available");
 		
-		checkNameForRedirect(req,res);
+		checkNameForRedirect(req,res,id);
 	}	
 }
 
-function checkNameForRedirect(req,res) {
+function checkNameForRedirect(req,res,id) {
 	if(req.query.name!=null) {
 		res.redirect('/chat/'+id + "?name=" + req.query.name);
 	} else {

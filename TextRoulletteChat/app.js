@@ -17,8 +17,15 @@ mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) 
     if(err) {
 		console.log(err);
         console.log('First attempt failed connecting to database...Trying again!.');
-		mongoose.connect('mongodb://localhost:27017/chatApp', function(err) {
+		mongoose.connect('mongodb://root:Brittany1@localhost:27017/admin', function(err) {
+			
+			
 			logTheConsole(err);
+			if(err) {
+				mongoose.connect('mongodb://localhost:27017/chatApp', function(err) {
+					logTheConsole(err);
+				});
+			}
 		});
     } else {
         console.log('connection successful');
@@ -26,7 +33,7 @@ mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) 
 });
 
 //	if err, log error to the console
-function logTheConsole(var err) {
+function logTheConsole(err) {
 	if(err) {
 		console.log('FATAL ERROR!!', err);
 	} else {
