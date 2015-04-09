@@ -13,7 +13,7 @@ var port = process.env.PORT || 3000;
 
 var mongoose = require('mongoose');
 
-var error = connectToMongoose('mongodb://root:Indiana1@localhost:27017/admin');
+/*var error = connectToMongoose('mongodb://root:Indiana1@localhost:27017/admin');
 
 if(error){
 	error=connectToMongoose('mongodb://root:Brittany1@localhost:27017/admin');
@@ -21,10 +21,10 @@ if(error){
 
 if(error) {
 	error = connectToMongoose('mongodb://localhost:27017/chatApp');
-}
+}*/
 
 
-/*mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) {
+mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) {
     if(err) {
 		console.log(err);
         console.log('First attempt failed connecting to database...Trying again!.');
@@ -41,8 +41,8 @@ if(error) {
     } else {
         console.log('connection successful');
     }
-});*/
-
+});
+/*
 function connectToMongoose(url){
 	var error;
 	mongoose.connect(url, function(err) {
@@ -53,7 +53,7 @@ function connectToMongoose(url){
 	});
 	return error;
 }
-
+*/
 //	if err, log error to the console
 function logTheConsole(err) {
 	if(err) {
