@@ -18,16 +18,21 @@ mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) 
 		console.log(err);
         console.log('First attempt failed connecting to database...Trying again!.');
 		mongoose.connect('mongodb://localhost:27017/chatApp', function(err) {
-			if(err) {
-				console.log('FATAL ERROR!!', err);
-			} else {
-			console.log('connection successful');
-			}
+			logTheConsole(err);
 		});
     } else {
         console.log('connection successful');
     }
 });
+
+//	if err, log error to the console
+function logTheConsole(var err) {
+	if(err) {
+		console.log('FATAL ERROR!!', err);
+	} else {
+		console.log('connection successful');
+	}
+}
 
 // Initialize a new socket.io object. It is bound to 
 // the express app, which allows them to coexist.
