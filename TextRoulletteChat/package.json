@@ -20,6 +20,7 @@
     "socket.io": "^1.0.6",
 	"mongodb": "*",
 	"mongoose": "^3.8.17",
-    "monk": "*"
+    "monk": "*",
+	"nodemon" : "*"
   }
 }

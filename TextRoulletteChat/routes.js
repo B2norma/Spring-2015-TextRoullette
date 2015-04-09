@@ -217,7 +217,7 @@ function findClientsSocket(io,roomId, namespace) {
 			else {
 				res.push(ns.connected[id]);
 			}
-		}
+		} 
 	}
 	return res;
 }
