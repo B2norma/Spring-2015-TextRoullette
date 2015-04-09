@@ -348,7 +348,7 @@ $(function(){
 		}
 
 		else if(status === "heStartedChatWithNoMessages") {
-
+			inviteSomebody.hide();
 			personInside.fadeOut(1200,function(){
 				inviteSomebody.fadeOut(1200);
 				noMessages.fadeIn(1200);
