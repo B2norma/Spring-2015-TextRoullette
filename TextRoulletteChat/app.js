@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://root:Indiana1@localhost:27017/admin', function(err) {
     if(err) {
 		console.log(err);
-        console.log('First attempt failed...Trying again!.');
+        console.log('First attempt failed connecting to database...Trying again!.');
 		mongoose.connect('mongodb://localhost:27017/chatApp', function(err) {
 			if(err) {
 				console.log('FATAL ERROR!!', err);

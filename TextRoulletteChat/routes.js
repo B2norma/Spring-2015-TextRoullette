@@ -43,13 +43,13 @@ module.exports = function(app,io){
 				console.log("Empty!");
 			} else {
 				if(req.query.name!=null) {
-					console.log(req.query.name);
+					console.log(req.query.name + " is in the chat");
 							res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
 						} else {
 							res.redirect('/chat/'+result.chatRoomId);
 						}
 				
-				console.log("Someone was waiting so user was paired.");
+				console.log("User has been paired with a partner.");
 			}
 		});
 		

@@ -214,7 +214,8 @@ $(function(){
 		// Create a new chat message and display it directly
 
 		showMessage("chatStarted");
-
+		console.log("Chat has started");
+		
 		if(textarea.val().trim().length) {
 			createChatMessage(textarea.val(), name, img, moment());
 			scrollToBottom();
