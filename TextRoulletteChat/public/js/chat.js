@@ -303,6 +303,7 @@ $(function(){
 				inviteSomebody.fadeIn(1200);
 			});
 			
+			$("#welcome").text("Welcome, " + name);
 						
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			timeout = setTimeout(redirectUrl,4200);
