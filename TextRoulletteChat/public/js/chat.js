@@ -2,6 +2,10 @@
 $(function(){
 
 	var timeout;
+	
+	var audioSent = new Audio('../audio/sent.mp3');
+	var audioRecieve = new Audio('../audio/recieve.mp3');
+
 
 	// getting the id of the room from the url
 	var id = Number(window.location.pathname.match(/\/chat\/(\d+)$/)[1]);
@@ -189,8 +193,9 @@ $(function(){
 	socket.on('receive', function(data){
 
 		showMessage('chatStarted');
-
+		
 		if(data.msg.trim().length) {
+			audioRecieve.play();
 			createChatMessage(data.msg, data.user, data.img, moment());
 			scrollToBottom();
 		}
@@ -222,6 +227,8 @@ $(function(){
 
 			// Send the message to the other person in the chat
 			socket.emit('msg', {msg: textarea.val(), user: name, img: img});
+			
+		audioSent.play();
 
 		}
 		// Empty the textarea
