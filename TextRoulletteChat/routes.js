@@ -22,32 +22,17 @@ module.exports = function(app,io){
 	app.get('/create', function(req,res){
 		
 		ChatDB.where().findOneAndRemove(function(err,result) {
-			if(err) console.log(err);
+			if(err) {
+				console.log(err);
+			} 
 			if(!result) {
 				var id = Math.round((Math.random() * 1000000));
 				var j = new ChatDB({chatRoomId:id});
-				ChatDB.create(j,function(err,temp) {
-					if(err) {
-						console.log(err);
-					} else {
-						console.log(temp);
-						console.log("User added since no one was available");
-						if(req.query.name!=null) {
-							res.redirect('/chat/'+id + "?name=" + req.query.name);
-						} else {
-							res.redirect('/chat/'+id);
-						}
-						
-					}	
-				});
+				ChatDB.create(j,checkChatAvailability(err,temp,req,res));
+				
 				console.log("Empty!");
 			} else {
-				if(req.query.name!=null) {
-					console.log(req.query.name + " is in the chat");
-							res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
-						} else {
-							res.redirect('/chat/'+result.chatRoomId);
-						}
+				joinChat(req,res,result);
 				
 				console.log("User has been paired with a partner.");
 			}
@@ -185,6 +170,35 @@ module.exports = function(app,io){
 		});
 	});
 };
+
+function joinChat(req,res,result) {
+			if(req.query.name!=null) {
+				console.log(req.query.name + " is in the chat");
+				
+				res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
+			} else {
+				res.redirect('/chat/'+result.chatRoomId);
+			}
+		}
+
+function checkChatAvailability(err,temp,req,res) {
+	if(err) {
+		console.log(err);
+	} else {
+		console.log(temp);
+		console.log("User added since no one was available");
+		
+		checkNameForRedirect(req,res);
+	}	
+}
+
+function checkNameForRedirect(req,res) {
+	if(req.query.name!=null) {
+		res.redirect('/chat/'+id + "?name=" + req.query.name);
+	} else {
+		res.redirect('/chat/'+id);
+	}
+}
 
 function findClientsSocket(io,roomId, namespace) {
 	var res = [],
