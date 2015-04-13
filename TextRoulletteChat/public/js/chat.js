@@ -177,7 +177,7 @@ $(function(){
 			showMessage("somebodyLeft", data);
 			chats.empty();
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			setTimeout(redirectUrl,4300);
+			setTimeout(redirectUrl,3500);
 		}
 
 	});
