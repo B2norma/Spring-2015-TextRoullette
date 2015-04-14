@@ -5,18 +5,28 @@
 // Use the gravatar module, to turn email addresses into avatar images:
 
 var gravatar = require('gravatar');
+var fs = require("fs");
 
 // Export a function, so that we can pass 
 // the app and io instances from the app.js file:
 var mongoose = require('mongoose');
 var ChatDB = require('./models/userWaiting.js')
 
-module.exports = function(app,io){
+module.exports = function(app,io){ 
 
 	app.get('/', function(req, res){
 
 		// Render views/home.html
 		res.render('home');
+	});
+	
+	app.get('/chat/avatar/',function(req,res,next) {
+		var dir = __dirname + '/public/img/avatars';
+		var files = fs.readdirSync(dir);
+		
+		var response = JSON.stringify(files);
+		console.log(response);
+		res.json(response);
 	});
 
 	app.get('/create', function(req,res){
@@ -50,7 +60,7 @@ module.exports = function(app,io){
 	});
 
 	app.get('/chat/:id', function(req,res){
-		
+		console.log(req.originalUrl);
 		// Render the chat.html view
 		res.render('chat');
 	});
@@ -69,6 +79,8 @@ module.exports = function(app,io){
 		});
 		
 	});
+	
+	
 
 	// Initialize a new socket.io application, named 'chat'
 	var chat = io.on('connection', function (socket) {

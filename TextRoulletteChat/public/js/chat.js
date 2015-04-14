@@ -1,5 +1,5 @@
 // This file is executed in the browser, when people visit /chat/<random id>
-
+	var responseList;
 $(function(){
 
 	var timeout;
@@ -50,6 +50,7 @@ $(function(){
 		noMessagesImage = $("#noMessagesImage");
 
 
+		
 	// on connection to server get the id of person's room
 	socket.on('connect', function(){
 
@@ -419,5 +420,96 @@ $(function(){
 		} else {
 			return true;
 		}
+	}
+	if(ownerImage.length){
+	ownerImage.hover(function(){
+		ownerImage.attr("src","../img/unnamedHover.jpg");
+	},function() {
+		ownerImage.attr("src","../img/unnamed.jpg");
+	});
+	
+	ownerImage.click(function(){
+		PopulateImages();
+        $('#overlay').fadeIn('fast',function(){
+            $('#box').animate({'top':'160px'},500);
+        });
+    });
+	}
+	if($('#creatorImage').length){
+	$('#creatorImage').hover(function(){
+		$('#creatorImage').attr("src","../img/unnamedHover.jpg");
+	},function() {
+		$('#creatorImage').attr("src","../img/unnamed.jpg");
+	});
+
+	
+    
+	
+	$('#creatorImage').click(function(){
+		PopulateImages();
+        $('#overlay').fadeIn('fast',function(){
+            $('#box').animate({'top':'160px'},500);
+        });
+    });
+	}
+    $('#boxclose').click(function(){
+        $('#box').animate({'top':'-600px'},500,function(){
+            $('#overlay').fadeOut('fast');
+        });
+
+	});
+	
+	function PopulateImages() {
+		$.ajax({
+				url: '../chat/avatar/',
+				type: 'GET',
+				success : function (response) {
+					window.responseList = JSON.parse(response);
+					SetupListDisplay();
+				}
+		})
+		
+		
+		
+	}
+	
+	function SetupListDisplay(){
+		var imageSelector = $('#imageSelector');
+		var imageGrabber = "<div class='floated_img'>";
+		
+		for(var i = 0; i < responseList.length; i++){
+			if(i!=0 && i%6 == 0 ){
+				imageGrabber +="<hr>";
+			}
+			imageGrabber += "<img id='img"+i+"' src='../img/unnamed.jpg' fakesrc='../img/avatars/" +responseList[i] + "'>"; 
+			
+		}
+		
+		imageGrabber += "</div>";
+		imageSelector.html(imageGrabber);
+		for(var i = 0; i < responseList.length;i++){
+			var string = "#img" + i;
+		$(string).bind('inview',function(event, visible){
+				if(visible){
+					var temp = $(this).attr("fakesrc");
+					$(this).attr("src",temp);
+				}else{
+					$(this).attr("src","../img/unnamed.jpg");
+				}
+			});
+		$(string).click(function(){
+			if(ownerImage.length){
+				ownerImage.attr("src",$(this).attr("src"));
+				ownerImage.unbind('mouseenter mouseleave');
+			}
+			if($('#creatorImage').length){
+				$('#creatorImage').unbind('mouseenter mouseleave');
+				$('#creatorImage').attr("src",$(this).attr("src"));
+			}
+			$('#boxclose').trigger("click");
+		});
+		}
+		
+		
 	}
 });
