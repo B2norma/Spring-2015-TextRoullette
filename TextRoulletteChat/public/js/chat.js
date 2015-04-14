@@ -89,7 +89,7 @@ $(function(){
 
 					// call the server-side function 'login' and send user's parameters
 					var imgsrc = $('#ownerImage').attr("src");
-					socket.emit('login', {user: name, avatar: imgsrc, id: id});
+					socket.emit('login', {user: decodeURI(name), avatar: imgsrc, id: id});
 			
 			});
 			
@@ -101,7 +101,7 @@ $(function(){
 				showMessage("inviteSomebody");
 				name = first;
 					// call the server-side function 'login' and send user's parameters
-				socket.emit('login', {user: name, avatar: img, id: id});
+				socket.emit('login', {user: decodeURI(name), avatar: img, id: id});
 			} else{
 			showMessage("connected");
 			}
@@ -121,7 +121,7 @@ $(function(){
 				showMessage("inviteSomebody");
 				name = first;
 					// call the server-side function 'login' and send user's parameters
-				socket.emit('login', {user: name, avatar: img, id: id});
+				socket.emit('login', {user: decodeURI(name), avatar: img, id: id});
 				return;
 			} else{
 				//showMessage("inviteSomebody");
@@ -143,7 +143,7 @@ $(function(){
 					return;
 				}
 				var imgsrc = $('#ownerImage').attr("src");
-					socket.emit('login', {user: name, avatar: imgsrc, id: id});
+					socket.emit('login', {user: decodeURI(name), avatar: imgsrc, id: id});
 			});
 			
 			
@@ -234,7 +234,7 @@ $(function(){
 			scrollToBottom();
 
 			// Send the message to the other person in the chat
-			socket.emit('msg', {msg: textarea.val(), user: name, avatar: img});
+			socket.emit('msg', {msg: textarea.val(), user: decodeURI(name), avatar: img});
 			
 		audioSent.play();
 
@@ -283,7 +283,7 @@ $(function(){
 		}else{
 		li.find('p').text(msg);
 		}
-		li.find('b').text(user);
+		li.find('b').text(decodeURI(user));
 
 		chats.append(li);
 
@@ -322,7 +322,7 @@ $(function(){
 			inviteSomebody.show();
 			
 			
-			$("#welcome").text("Welcome, " + name);
+			$("#welcome").text("Welcome, " + decodeURI(name));
 						
 			var redirectUrl = "location.href = '../create?name="+ name + "&img="+img + "';";
 			timeout = setTimeout(redirectUrl,generateRandomTimeOut());
@@ -403,7 +403,7 @@ $(function(){
 	}
 
 	$(".randomChatButton").click(function(){
-        window.location.replace('../create?name=' + name);
+        window.location.replace('../create?name=' + name + "&img="+img);
     });
 
 	function generateRandomTimeOut() {

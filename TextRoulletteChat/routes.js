@@ -11,6 +11,8 @@ var fs = require("fs");
 // the app and io instances from the app.js file:
 var mongoose = require('mongoose');
 var ChatDB = require('./models/userWaiting.js')
+var dir = __dirname + '/public/img/avatars';
+var avatarList =JSON.stringify (fs.readdirSync(dir)) ;
 
 module.exports = function(app,io){ 
 
@@ -21,11 +23,8 @@ module.exports = function(app,io){
 	});
 	
 	app.get('/chat/avatar/',function(req,res,next) {
-		var dir = __dirname + '/public/img/avatars';
-		var files = fs.readdirSync(dir);
-		
-		var response = JSON.stringify(files);
-		res.json(response);
+
+		res.json(avatarList);
 	});
 
 	app.get('/create', function(req,res){
