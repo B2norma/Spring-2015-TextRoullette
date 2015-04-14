@@ -288,7 +288,7 @@ $(function(){
 		if(status === "connected"){
 
 			section.children().css('display', 'none');
-			onConnect.fadeIn(1200);
+			onConnect.show();
 		}
 
 		else if(status === "inviteSomebody"){
@@ -306,9 +306,9 @@ $(function(){
 				}
 			});*/
 			
-			onConnect.fadeOut(1200, function(){
-				inviteSomebody.fadeIn(1200);
-			});
+			onConnect.hide();
+			inviteSomebody.show();
+			
 			
 			$("#welcome").text("Welcome, " + name);
 						
@@ -336,7 +336,7 @@ $(function(){
 		else if(status === "personinchat"){
 			
 			onConnect.css("display", "none");
-			personInside.fadeIn(1200);
+			personInside.show();
 
 			chatNickname.text(data.user);
 			ownerImage.attr("src",data.avatar);
@@ -344,12 +344,12 @@ $(function(){
 
 		else if(status === "youStartedChatWithNoMessages") {
 
-			left.fadeOut(1200, function() {
-				inviteSomebody.fadeOut(1200,function(){
-					noMessages.fadeIn(1200);
-					footer.fadeIn(1200);
-				});
-			});
+			left.hide();
+			inviteSomebody.hide();
+			noMessages.show();
+			footer.show();
+				
+			
 
 			friend = data.users[1];
 			noMessagesImage.attr("src",data.avatars[1]);
@@ -357,11 +357,11 @@ $(function(){
 
 		else if(status === "heStartedChatWithNoMessages") {
 			inviteSomebody.hide();
-			personInside.fadeOut(1200,function(){
-				inviteSomebody.fadeOut(1200);
-				noMessages.fadeIn(1200);
-				footer.fadeIn(1200);
-			});
+			personInside.hide();
+			inviteSomebody.hide();
+			noMessages.show();
+			footer.show();
+			
 
 			friend = data.users[0];
 			noMessagesImage.attr("src",data.avatars[0]);
@@ -379,14 +379,14 @@ $(function(){
 
 			section.children().css('display','none');
 			footer.css('display', 'none');
-			left.fadeIn(1200);
+			left.show();
 		}
 
 		else if(status === "tooManyPeople") {
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
 			setTimeout(redirectUrl,generateRandomTimeOut());
 			section.children().css('display', 'none');
-			tooManyPeople.fadeIn(1200);
+			tooManyPeople.show();
 		}
 	}
 
