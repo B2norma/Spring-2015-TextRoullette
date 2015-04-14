@@ -8,7 +8,7 @@ var express = require('express'),
 	app = express();
 	
 var favicon = require('serve-favicon');
-app.use(favicon(__dirname + '/public/img/favicon.ico'));
+//app.use(favicon(__dirname + '/public/img/favicon.ico'));
 
 // This is needed if the app is run on heroku:
 
