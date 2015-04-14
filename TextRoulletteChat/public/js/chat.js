@@ -88,17 +88,20 @@ $(function(){
 					showMessage("inviteSomebody");
 
 					// call the server-side function 'login' and send user's parameters
-					socket.emit('login', {user: name, avatar: email, id: id});
+					var imgsrc = $('#ownerImage').attr("src");
+					socket.emit('login', {user: name, avatar: imgsrc, id: id});
 			
 			});
 			
 			var first = getUrlVars()["name"];
+			var image = getUrlVars()["img"];
 			name = first;
+			img = image;
 			if(first!=null && first!="") {
 				showMessage("inviteSomebody");
 				name = first;
 					// call the server-side function 'login' and send user's parameters
-				socket.emit('login', {user: name, avatar: email, id: id});
+				socket.emit('login', {user: name, avatar: img, id: id});
 			} else{
 			showMessage("connected");
 			}
@@ -111,12 +114,14 @@ $(function(){
 			showMessage("personinchat",data);
 			
 			var first = getUrlVars()["name"];
+			var image = getUrlVars()["img"];
 			name = first;
+			img = image;
 			if(first!=null && first!="") {
 				showMessage("inviteSomebody");
 				name = first;
 					// call the server-side function 'login' and send user's parameters
-				socket.emit('login', {user: name, avatar: email, id: id});
+				socket.emit('login', {user: name, avatar: img, id: id});
 				return;
 			} else{
 				//showMessage("inviteSomebody");
@@ -137,7 +142,8 @@ $(function(){
 					alert("There already is a \"" + name + "\" in this room!");
 					return;
 				}
-					socket.emit('login', {user: name, avatar: email, id: id});
+				var imgsrc = $('#ownerImage').attr("src");
+					socket.emit('login', {user: name, avatar: imgsrc, id: id});
 			});
 			
 			
@@ -167,7 +173,7 @@ $(function(){
 				showMessage("heStartedChatWithNoMessages",data);
 			}
 			if(friend==name) {
-				window.location.replace('../create?name=' + name);
+				window.location.replace('../create?name=' + name + '&img=' + img);
 			}
 			chatNickname.text(friend);
 		}
@@ -178,7 +184,7 @@ $(function(){
 		if(data.boolean && id==data.room){
 			showMessage("somebodyLeft", data);
 			chats.empty();
-			var redirectUrl = "location.href = '../create?name="+ name + "';";
+			var redirectUrl = "location.href = '../create?name="+ name + "&img="+img + "';";
 			setTimeout(redirectUrl,generateRandomTimeOut());
 		}
 
@@ -198,7 +204,7 @@ $(function(){
 		
 		if(data.msg.trim().length) {
 			audioRecieve.play();
-			createChatMessage(data.msg, data.user, data.img, moment());
+			createChatMessage(data.msg, data.user, data.avatar, moment());
 			scrollToBottom();
 		}
 	});
@@ -228,7 +234,7 @@ $(function(){
 			scrollToBottom();
 
 			// Send the message to the other person in the chat
-			socket.emit('msg', {msg: textarea.val(), user: name, img: img});
+			socket.emit('msg', {msg: textarea.val(), user: name, avatar: img});
 			
 		audioSent.play();
 
@@ -318,7 +324,7 @@ $(function(){
 			
 			$("#welcome").text("Welcome, " + name);
 						
-			var redirectUrl = "location.href = '../create?name="+ name + "';";
+			var redirectUrl = "location.href = '../create?name="+ name + "&img="+img + "';";
 			timeout = setTimeout(redirectUrl,generateRandomTimeOut());
 			
 			/*setTimeout(function(){
@@ -389,7 +395,7 @@ $(function(){
 		}
 
 		else if(status === "tooManyPeople") {
-			var redirectUrl = "location.href = '../create?name="+ name + "';";
+			var redirectUrl = "location.href = '../create?name="+ name + "&img="+img + "';";
 			setTimeout(redirectUrl,generateRandomTimeOut());
 			section.children().css('display', 'none');
 			tooManyPeople.show();
@@ -481,7 +487,11 @@ $(function(){
 			if(i!=0 && i%6 == 0 ){
 				imageGrabber +="<hr>";
 			}
+			if(i < 30) {
+				imageGrabber += "<img id='img"+i+"' src='../img/avatars/" +responseList[i] + "' fakesrc='../img/avatars/" +responseList[i] + "'>";
+			} else{
 			imageGrabber += "<img id='img"+i+"' src='../img/unnamed.jpg' fakesrc='../img/avatars/" +responseList[i] + "'>"; 
+			}
 			
 		}
 		
@@ -501,11 +511,14 @@ $(function(){
 			if(ownerImage.length){
 				ownerImage.attr("src",$(this).attr("src"));
 				ownerImage.unbind('mouseenter mouseleave');
+				img = ownerImage.attr("src");
 			}
 			if($('#creatorImage').length){
 				$('#creatorImage').unbind('mouseenter mouseleave');
 				$('#creatorImage').attr("src",$(this).attr("src"));
+				img = $('#creatorImage').attr("src");
 			}
+			
 			$('#boxclose').trigger("click");
 		});
 		}

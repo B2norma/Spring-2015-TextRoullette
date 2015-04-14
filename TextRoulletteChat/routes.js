@@ -25,7 +25,6 @@ module.exports = function(app,io){
 		var files = fs.readdirSync(dir);
 		
 		var response = JSON.stringify(files);
-		console.log(response);
 		res.json(response);
 	});
 
@@ -123,7 +122,13 @@ module.exports = function(app,io){
 
 				socket.username = data.user;
 				socket.room = data.id;
-				socket.avatar = gravatar.url(data.avatar, {s: '140', r: 'x', d: 'mm'});
+				
+				if(data.avatar == "" || data.avatar=="undefined"){
+				data.avatar = "../img/unnamed.jpg";
+				}
+				
+				socket.avatar = data.avatar;
+				
 
 				// Tell the person what he should use for an avatar
 				socket.emit('img', socket.avatar);
@@ -178,9 +183,11 @@ module.exports = function(app,io){
 
 		// Handle the sending of messages
 		socket.on('msg', function(data){
-
 			// When the server receives a message, it sends it to the other person in the room.
-			socket.broadcast.to(socket.room).emit('receive', {msg: data.msg, user: data.user, img: data.img});
+			if(data.avatar == "" || data.avatar=="undefined"){
+				data.avatar = "../img/unnamed.jpg";
+			}
+			socket.broadcast.to(socket.room).emit('receive', {msg: data.msg, user: data.user, avatar: data.avatar});
 		});
 	});
 };
@@ -189,7 +196,7 @@ function joinChat(req,res,result) {
 			if(req.query.name!=null) {
 				console.log(req.query.name + " is in the chat");
 				
-				res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name);
+				res.redirect('/chat/'+result.chatRoomId + "?name=" + req.query.name + "&img=" + req.query.img);
 			} else {
 				res.redirect('/chat/'+result.chatRoomId);
 			}
@@ -208,7 +215,7 @@ function checkChatAvailability(err,temp,req,res,id) {
 
 function checkNameForRedirect(req,res,id) {
 	if(req.query.name!=null) {
-		res.redirect('/chat/'+id + "?name=" + req.query.name);
+		res.redirect('/chat/'+id + "?name=" + req.query.name+ "&img=" + req.query.img);
 	} else {
 		res.redirect('/chat/'+id);
 	}
