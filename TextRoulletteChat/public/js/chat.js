@@ -177,7 +177,7 @@ $(function(){
 			showMessage("somebodyLeft", data);
 			chats.empty();
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			setTimeout(redirectUrl,3500);
+			setTimeout(redirectUrl,generateRandomTimeOut());
 		}
 
 	});
@@ -313,7 +313,7 @@ $(function(){
 			$("#welcome").text("Welcome, " + name);
 						
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			timeout = setTimeout(redirectUrl,4200);
+			timeout = setTimeout(redirectUrl,generateRandomTimeOut());
 			
 			/*setTimeout(function(){
 				$.ajax({
@@ -384,7 +384,7 @@ $(function(){
 
 		else if(status === "tooManyPeople") {
 			var redirectUrl = "location.href = '../create?name="+ name + "';";
-			setTimeout(redirectUrl,4000);
+			setTimeout(redirectUrl,generateRandomTimeOut());
 			section.children().css('display', 'none');
 			tooManyPeople.fadeIn(1200);
 		}
@@ -393,4 +393,12 @@ $(function(){
 	$(".randomChatButton").click(function(){
         window.location.replace('../create?name=' + name);
     });
+
+	function generateRandomTimeOut() {
+		return generateRandomInteger(3000,5000);
+	}
+	
+	function generateRandomInteger(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 });
