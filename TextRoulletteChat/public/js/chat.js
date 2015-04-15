@@ -281,7 +281,7 @@ $(function(){
 		// use the 'text' method to escape malicious user input
 		if(isYoutubeUrl(msg.trim())){
 			var vidUrl = getYoutubeVideoCode(msg.trim());
-			var firstPartYoutubeEmbed = "<iframe width='100%' height='auto' src='https://www.youtube.com/embed/";
+			var firstPartYoutubeEmbed = "<iframe width='450' height='315' src='https://www.youtube.com/embed/";
 			var lastPartYoutubeEmbed = "' frameborder='0' allowfullscreen></iframe>";
 			li.find('p').html(firstPartYoutubeEmbed + vidUrl + lastPartYoutubeEmbed);
 		} else if(ValidURL(msg.trim())){
