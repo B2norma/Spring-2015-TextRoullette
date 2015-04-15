@@ -279,8 +279,12 @@ $(function(){
 			'</li>');
 
 		// use the 'text' method to escape malicious user input
-		
-		if(ValidURL(msg.trim())){
+		if(isYoutubeUrl(msg.trim())){
+			var vidUrl = getYoutubeVideoCode(msg.trim());
+			var firstPartYoutubeEmbed = "<iframe width='100%' height='auto' src='https://www.youtube.com/embed/";
+			var lastPartYoutubeEmbed = "' frameborder='0' allowfullscreen></iframe>";
+			li.find('p').html(firstPartYoutubeEmbed + vidUrl + lastPartYoutubeEmbed);
+		} else if(ValidURL(msg.trim())){
 			var linkTag = "<a target='_blank' href='" + msg.trim() + "'>";
 			if(isImgUrl){
 				li.find('p').html(linkTag + "<img src='" + msg.trim() + "' style='max-width: 100%;height: auto; width: auto\9;'></a>");
@@ -583,5 +587,28 @@ $(function(){
 			return false;
 			
 		}
+	}
+	function getLocation(href) {
+    var l = document.createElement("a");
+    l.href = href;
+    return l;
+	};
+	
+	function isYoutubeUrl(url){
+		var locationUrl = getLocation(url);
+		if(locationUrl.hostname == "www.youtube.com" || locationUrl.hostname == "youtube.com"){
+			return true;
+		}
+		return false;
+	}
+	
+	function getYoutubeVideoCode(url){
+		var locationUrl = getLocation(url);
+		var video_id = locationUrl.search.split('v=')[1];
+		var ampersandPosition = video_id.indexOf('&');
+		if(ampersandPosition != -1) {
+			video_id = video_id.substring(0, ampersandPosition);
+		}
+		return video_id;
 	}
 });
