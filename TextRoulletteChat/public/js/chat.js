@@ -266,6 +266,7 @@ $(function(){
 		else {
 			who = 'you';
 		}
+		var isImgUrl = isImage(msg);
 
 		var li = $(
 			'<li class=' + who + '>'+
@@ -278,8 +279,13 @@ $(function(){
 			'</li>');
 
 		// use the 'text' method to escape malicious user input
+		
 		if(ValidURL(msg.trim())){
 			li.find('p').html("<a target='_blank' href='" + msg.trim() + "'>" + msg.trim() + "</a>");
+			if(isImgUrl){
+				var tempHtml = li.find('p').html();
+				li.find('p').html(tempHtml + "<img src='" + msg.trim() + "' style='max-width: 100%;height: auto; width: auto\9;'>");
+			}
 		}else{
 		li.find('p').text(msg);
 		}
@@ -406,6 +412,10 @@ $(function(){
         window.location.replace('../create?name=' + name + "&img="+img);
     });
 
+	$(".changeIdentityButton").click(function(){
+		window.location.replace('../create');
+	});
+
 	function generateRandomTimeOut() {
 		return generateRandomInteger(3000,5000);
 	}
@@ -480,6 +490,7 @@ $(function(){
 	}
 	
 	function SetupListDisplay(){
+		responseList = ShuffleArray(responseList);
 		var imageSelector = $('#imageSelector');
 		var imageGrabber = "<div class='floated_img'>";
 		
@@ -524,5 +535,51 @@ $(function(){
 		}
 		
 		
+	}
+	
+	function ShuffleArray(array){
+		
+	var currentIndex = array.length, temporaryValue, randomIndex ;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+	}
+	
+	function isImage(url){
+		url = url.toLowerCase();
+		var extension = url.split('.').pop().split(/\#|\?/)[0];
+		switch(extension) {
+			case "gif":
+				return true;
+				break;
+			case "jpg":
+				return true;
+				break;
+			case "jpeg":
+				return true;
+				break;
+			case "png":
+				return true;
+				break;
+			case "bmp":
+				return true;
+				break;
+			default:
+			return false;
+			
+		}
 	}
 });
