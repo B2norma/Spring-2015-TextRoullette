@@ -69,6 +69,15 @@ $(function(){
     });
     return vars;
 	}
+	
+	function getYoutubeVars(url){
+		var vars = {};
+		var locationUrl = getLocation(url);
+		var parts = locationUrl.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        	vars[key] = value;
+    	});
+    	return vars;
+	}
 
 	// receive the names and avatars of all people in the chat room
 	socket.on('peopleinchat', function(data){
@@ -159,7 +168,6 @@ $(function(){
 
 	socket.on('startChat', function(data){
 		clearTimeout(timeout);
-		console.log(data);
 		if(data.boolean && data.id == id) {
 
 			chats.empty();
@@ -279,11 +287,12 @@ $(function(){
 			'</li>');
 
 		// use the 'text' method to escape malicious user input
-		if(isYoutubeUrl(msg.trim())){
-			var vidUrl = getYoutubeVideoCode(msg.trim());
+		
+		var vidUrl = getYoutubeVars(msg.trim());
+		if(isYoutubeUrl(msg.trim()) && vidUrl["v"]!=null){
 			var firstPartYoutubeEmbed = "<iframe width='450' height='315' src='https://www.youtube.com/embed/";
 			var lastPartYoutubeEmbed = "' frameborder='0' allowfullscreen></iframe>";
-			li.find('p').html(firstPartYoutubeEmbed + vidUrl + lastPartYoutubeEmbed);
+			li.find('p').html(firstPartYoutubeEmbed + vidUrl["v"] + lastPartYoutubeEmbed);
 		} else if(ValidURL(msg.trim())){
 			var linkTag = "<a target='_blank' href='" + msg.trim() + "'>";
 			if(isImgUrl){
@@ -601,14 +610,5 @@ $(function(){
 		}
 		return false;
 	}
-	
-	function getYoutubeVideoCode(url){
-		var locationUrl = getLocation(url);
-		var video_id = locationUrl.search.split('v=')[1];
-		var ampersandPosition = video_id.indexOf('&');
-		if(ampersandPosition != -1) {
-			video_id = video_id.substring(0, ampersandPosition);
-		}
-		return video_id;
-	}
+
 });
