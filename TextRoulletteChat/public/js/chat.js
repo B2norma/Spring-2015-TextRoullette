@@ -302,7 +302,7 @@ $(function(){
 			}
 			
 		}else{
-		li.find('p').text(msg);
+		li.find('p').text(msg.trim());
 		}
 		li.find('b').text(decodeURI(user));
 
