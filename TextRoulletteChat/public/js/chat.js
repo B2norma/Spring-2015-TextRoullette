@@ -281,11 +281,13 @@ $(function(){
 		// use the 'text' method to escape malicious user input
 		
 		if(ValidURL(msg.trim())){
-			li.find('p').html("<a target='_blank' href='" + msg.trim() + "'>" + msg.trim() + "</a>");
+			var linkTag = "<a target='_blank' href='" + msg.trim() + "'>";
 			if(isImgUrl){
-				var tempHtml = li.find('p').html();
-				li.find('p').html(tempHtml + "<img src='" + msg.trim() + "' style='max-width: 100%;height: auto; width: auto\9;'>");
+				li.find('p').html(linkTag + "<img src='" + msg.trim() + "' style='max-width: 100%;height: auto; width: auto\9;'></a>");
+			} else{
+				li.find('p').html(linkTag + msg.trim() + "</a>");
 			}
+			
 		}else{
 		li.find('p').text(msg);
 		}
