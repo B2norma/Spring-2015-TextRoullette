@@ -15,6 +15,7 @@ body {
 	background-color: #f0f1f3;
 	color:#667073;
 	font: 16px/1.3 'Arial',sans-serif;
+	padding-top:80px;
 }
 
 
@@ -22,7 +23,14 @@ body {
 
 /* ------------ Header styles ------------ */
 
-
+header {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	background-color: #3c4446;
+	height: 80px;
+}
 
 /* ------ Home ------ */
 
@@ -601,7 +609,7 @@ a.boxclose{
 	font-size: 12px;
 	line-height: 1.2;
 	display: block;
-	opacity: 0.8;
+
 	padding-top: 4px;
 }
 
