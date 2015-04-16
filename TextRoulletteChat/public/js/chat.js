@@ -296,7 +296,7 @@ $(function(){
 		} else if(ValidURL(msg.trim())){
 			var linkTag = "<a target='_blank' href='" + msg.trim() + "'>";
 			if(isImgUrl){
-				li.find('p').html(linkTag + "<img src='" + msg.trim() + "' style='max-width: 100%;height: auto; width: auto\9;'></a>");
+				li.find('p').html(linkTag + "<img src='" + msg.trim() + "' style='max-width: 100%;height: auto; width: auto\9; border:1px solid #; border-radius: 10px; box-shadow: 4px 3px 5px #888888;'></a>");
 			} else{
 				li.find('p').html(linkTag + msg.trim() + "</a>");
 			}
