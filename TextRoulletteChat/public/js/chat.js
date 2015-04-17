@@ -674,6 +674,16 @@ $(function(){
 				case "super":
 					finalMessage += "<sup>";
 					break;
+				case "time":
+					var currentdate = new Date(); 
+					var datetime = "TextBot: Current Time - " + currentdate.getDate() + "/"
+					+ (currentdate.getMonth()+1)  + "/" 
+					+ currentdate.getFullYear() + "  "  
+					+ currentdate.getHours() + ":"  
+					+ currentdate.getMinutes() + ":" 
+					+ currentdate.getSeconds();
+					finalMessage += datetime;
+					break;
 			}
 			
 			if(!(endOfSlash==message.length)){
