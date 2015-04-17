@@ -280,7 +280,7 @@ $(function(){
 			'<li class=' + who + '>'+
 				'<div class="image">' +
 					'<img src=' + imgg + ' />' +
-					'<b></b>' +
+					'<b id="NameID"></b>' +
 					'<i class="timesent" data-time=' + now + '></i> ' +
 				'</div>' +
 				'<p></p>' +
@@ -302,9 +302,11 @@ $(function(){
 			}
 			
 		}else{
-		li.find('p').text(msg.trim());
+			var message = convertMessageToCode(msg.trim());
+		li.find('p').html(message);
 		}
-		li.find('b').text(decodeURI(user));
+		
+		li.find('#NameID').text(decodeURI(user));
 
 		chats.append(li);
 
@@ -609,6 +611,80 @@ $(function(){
 			return true;
 		}
 		return false;
+	}
+	
+	function convertMessageToCode(message){
+		var regex = /(<([^>]+)>)/ig
+		var message = message.replace(regex, "");
+		
+		var finalMessage = "<div class='formattedMessage'>"
+		
+		while(message.indexOf("//")>-1){
+			var indexOfSlash = message.indexOf("//");
+			finalMessage += message.substring(0,indexOfSlash);
+			message = message.substring(indexOfSlash,message.length);
+			var endOfSlash = message.indexOf(" ");
+			
+			if(endOfSlash<0){
+				endOfSlash = message.length;
+			}
+			
+			var specialCode = message.substring(2,endOfSlash);
+			
+			switch(specialCode){
+				case "i":
+					finalMessage += "<i>";
+					break;
+				case "b":
+					finalMessage += "<b>";
+					break;
+				case "u":
+					finalMessage += "<u>";
+					break;
+				case "small":
+					finalMessage += "<small>";
+					break;
+				case "mark":
+					finalMessage += "<mark>";
+					break;
+				case "strike":
+					finalMessage += "<del>";
+					break;
+				case "1":
+					finalMessage += "<h1>";
+					break;
+				case "2":
+					finalMessage += "<h2>";
+					break;
+				case "3":
+					finalMessage += "<h3>";
+					break;
+				case "4":
+					finalMessage += "<h4>";
+					break;
+				case "5":
+					finalMessage += "<h5>";
+					break;
+				case "6":
+					finalMessage += "<h6>";
+					break;
+				case "sub":
+					finalMessage += "<sub>";
+					break;
+				case "super":
+					finalMessage += "<sup>";
+					break;
+			}
+			
+			if(!(endOfSlash==message.length)){
+				message = message.substring(endOfSlash,message.length);
+			} else{
+				message += " ";
+				message = message.substring(endOfSlash,message.length - 1);
+			}
+		}
+		finalMessage += message;
+		return finalMessage;
 	}
 
 });
