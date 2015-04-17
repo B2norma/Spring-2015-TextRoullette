@@ -633,6 +633,16 @@ a.boxclose{
 	padding-top: 4px;
 }
 
+/* ------ About Page ------ */
+
+.abouttable {
+	background-color:FFFFCC;
+	border-collapse:collapse;
+	border:1px solid FFCC00;
+	color:000000;
+	width:50%;
+
+}
 
 /* ------------ Footer styles ------------ */
 
