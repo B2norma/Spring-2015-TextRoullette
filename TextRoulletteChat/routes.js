@@ -22,6 +22,12 @@ module.exports = function(app,io){
 		res.render('home');
 	});
 	
+	app.get('/about', function(req, res){
+
+		// Render views/about.html
+		res.render('about');
+	});
+	
 	app.get('/chat/avatar/',function(req,res,next) {
 
 		res.json(avatarList);
