@@ -1,5 +1,6 @@
 // This file is executed in the browser, when people visit /chat/<random id>
 	var responseList;
+	var formattingArray = new Array();
 $(function(){
 
 	var timeout;
@@ -432,6 +433,71 @@ $(function(){
 	$(".changeIdentityButton").click(function(){
 		window.location.replace('../create');
 	});
+	
+	$(".addSmileyFace").click(function(){
+		$('#overlay').fadeIn('fast',function(){
+            $('#box').animate({'top':'160px'},500);
+        });
+		loadSmileyFaces();
+	});
+	
+	function loadSmileyFaces(){
+		PopulateEmoji();
+	}
+	
+	function PopulateEmoji() {
+		$.ajax({
+				url: '../chat/emoji/',
+				type: 'GET',
+				success : function (response) {
+					window.responseList = JSON.parse(response);
+					SetupEmojiDisplay();
+				}
+		})
+		
+	}
+	
+	function SetupEmojiDisplay(){
+		
+		var imageSelector = $('#imageSelector');
+		imageSelector.empty();
+		var imageGrabber = "<div class='floated_img'>";
+		
+		for(var i = 0; i < responseList.length; i++){
+			if(i!=0 && i%20 == 0 ){
+				imageGrabber +="<hr>";
+			}
+			if(i < 150) {
+				imageGrabber += "<img id='img"+i+"' style='width:32px; height:32px;' src='../img/emoji/" +responseList[i] + "' fakesrc='../img/emoji/" +responseList[i] + "'>";
+			} else{
+			imageGrabber += "<img id='img"+i+"' style='width:32px; height:32px;' src='../img/unnamed.jpg' fakesrc='../img/emoji/" +responseList[i] + "'>"; 
+			}
+			
+		}
+		
+		imageGrabber += "</div>";
+		imageSelector.html(imageGrabber);
+		for(var i = 0; i < responseList.length;i++){
+			var string = "#img" + i;
+		$(string).bind('inview',function(event, visible){
+				if(visible){
+					var temp = $(this).attr("fakesrc");
+					$(this).attr("src",temp);
+				}else{
+					$(this).attr("src","../img/unnamed.jpg");
+				}
+			});
+		$(string).click(function(){
+			var messageItem = $("#message");
+			var emojiName = $(this).attr("src").lastIndexOf("/");
+			emojiName = $(this).attr("src").substring(emojiName + 1);
+			emojiName= emojiName.replace(/\s+/g, "%20");			
+			messageItem.val(messageItem.val() + " //" + emojiName + " ");
+			
+			$('#boxclose').trigger("click");
+		});
+		}
+	}
 
 	function generateRandomTimeOut() {
 		return generateRandomInteger(3000,5000);
@@ -617,8 +683,8 @@ $(function(){
 		var regex = /(<([^>]+)>)/ig
 		var message = message.replace(regex, "");
 		
-		var finalMessage = "<div class='formattedMessage'>"
-		
+		var finalMessage = "";
+		var divMessage = "<div class='formattedMessage'>";
 		while(message.indexOf("//")>-1){
 			var indexOfSlash = message.indexOf("//");
 			finalMessage += message.substring(0,indexOfSlash);
@@ -634,45 +700,59 @@ $(function(){
 			switch(specialCode){
 				case "i":
 					finalMessage += "<i>";
+					formattingArray.push(finalMessage);
 					break;
 				case "b":
 					finalMessage += "<b>";
+					formattingArray.push(finalMessage);
 					break;
 				case "u":
 					finalMessage += "<u>";
+					formattingArray.push(finalMessage);
 					break;
 				case "small":
 					finalMessage += "<small>";
+					formattingArray.push(finalMessage);
 					break;
 				case "mark":
 					finalMessage += "<mark>";
+					formattingArray.push(finalMessage);
 					break;
 				case "strike":
 					finalMessage += "<del>";
+					formattingArray.push(finalMessage);
 					break;
 				case "1":
 					finalMessage += "<h1>";
+					formattingArray.push(finalMessage);
 					break;
 				case "2":
 					finalMessage += "<h2>";
+					formattingArray.push(finalMessage);
 					break;
 				case "3":
 					finalMessage += "<h3>";
+					formattingArray.push(finalMessage);
 					break;
 				case "4":
 					finalMessage += "<h4>";
+					formattingArray.push(finalMessage);
 					break;
 				case "5":
 					finalMessage += "<h5>";
+					formattingArray.push(finalMessage);
 					break;
 				case "6":
 					finalMessage += "<h6>";
+					formattingArray.push(finalMessage);
 					break;
 				case "sub":
 					finalMessage += "<sub>";
+					formattingArray.push(finalMessage);
 					break;
 				case "super":
 					finalMessage += "<sup>";
+					formattingArray.push(finalMessage);
 					break;
 				case "time":
 					var currentdate = new Date(); 
@@ -684,6 +764,12 @@ $(function(){
 					+ currentdate.getSeconds();
 					finalMessage += datetime;
 					break;
+				default:
+					if(isImage(specialCode)){
+					var htmlToLoadEmoji = "<img style='width:32px; height:32px;' src='../img/emoji/" + specialCode + "'>";
+					finalMessage += htmlToLoadEmoji;
+					}
+					
 			}
 			
 			if(!(endOfSlash==message.length)){
@@ -693,7 +779,7 @@ $(function(){
 				message = message.substring(endOfSlash,message.length - 1);
 			}
 		}
-		finalMessage += message;
+		finalMessage = divMessage + finalMessage + message;
 		return finalMessage;
 	}
 

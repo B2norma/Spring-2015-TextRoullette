@@ -12,7 +12,9 @@ var fs = require("fs");
 var mongoose = require('mongoose');
 var ChatDB = require('./models/userWaiting.js')
 var dir = __dirname + '/public/img/avatars';
-var avatarList =JSON.stringify (fs.readdirSync(dir)) ;
+var emojiDir = __dirname + '/public/img/emoji';
+var avatarList =JSON.stringify (fs.readdirSync(dir));
+var emojiList = JSON.stringify (fs.readdirSync(emojiDir));
 
 module.exports = function(app,io){ 
 
@@ -31,6 +33,10 @@ module.exports = function(app,io){
 	app.get('/chat/avatar/',function(req,res,next) {
 
 		res.json(avatarList);
+	});
+	
+	app.get('/chat/emoji/',function(req,res,next) {
+		res.json(emojiList);
 	});
 
 	app.get('/create', function(req,res){
