@@ -699,60 +699,74 @@ $(function(){
 			
 			switch(specialCode){
 				case "i":
-					finalMessage += "<i>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<i>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "b":
-					finalMessage += "<b>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<b>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "u":
-					finalMessage += "<u>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<u>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "small":
-					finalMessage += "<small>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<small>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "mark":
-					finalMessage += "<mark>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<mark>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "strike":
-					finalMessage += "<del>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<del>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "1":
-					finalMessage += "<h1>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<h1>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "2":
-					finalMessage += "<h2>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<h2>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "3":
-					finalMessage += "<h3>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<h3>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "4":
-					finalMessage += "<h4>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<h4>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "5":
-					finalMessage += "<h5>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<h5>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "6":
-					finalMessage += "<h6>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<h6>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "sub":
-					finalMessage += "<sub>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<sub>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "super":
-					finalMessage += "<sup>";
-					formattingArray.push(finalMessage);
+					htmlTag = "<sup>";
+					finalMessage += htmlTag;
+					formattingArray.push(htmlTag);
 					break;
 				case "time":
 					var currentdate = new Date(); 
@@ -764,6 +778,11 @@ $(function(){
 					+ currentdate.getSeconds();
 					finalMessage += datetime;
 					break;
+				case "/":
+					var htmlTag = formattingArray.pop();
+					var indexOfBracket = htmlTag.indexOf("<");
+					var closingTag = "</" + htmlTag.substring(1);
+					finalMessage += closingTag;
 				default:
 					if(isImage(specialCode)){
 					var htmlToLoadEmoji = "<img style='width:32px; height:32px;' src='../img/emoji/" + specialCode + "'>";
