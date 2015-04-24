@@ -783,6 +783,17 @@ $(function(){
 					var indexOfBracket = htmlTag.indexOf("<");
 					var closingTag = "</" + htmlTag.substring(1);
 					finalMessage += closingTag;
+					break;
+				case "//":
+					var size = formattingArray.length;
+					
+					for(var i = 0; i < size; i++){
+						var htmlTag = formattingArray.pop();
+						var indexOfBracket = htmlTag.indexOf("<");
+						var closingTag = "</" + htmlTag.substring(1);
+						finalMessage += closingTag;
+					}
+					break;
 				default:
 					if(isImage(specialCode)){
 					var htmlToLoadEmoji = "<img style='width:32px; height:32px;' src='../img/emoji/" + specialCode + "'>";
